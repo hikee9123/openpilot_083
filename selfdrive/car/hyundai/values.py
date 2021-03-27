@@ -13,8 +13,8 @@ class CarControllerParams:
       self.STEER_MAX = 384
     else:
       self.STEER_MAX = 255
-    self.STEER_DELTA_UP = 2
-    self.STEER_DELTA_DOWN = 4
+    self.STEER_DELTA_UP = 1
+    self.STEER_DELTA_DOWN = 3
     self.STEER_DRIVER_ALLOWANCE = 50
     self.STEER_DRIVER_MULTIPLIER = 2
     self.STEER_DRIVER_FACTOR = 1
