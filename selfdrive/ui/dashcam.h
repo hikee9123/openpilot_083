@@ -437,6 +437,7 @@ static void ui_draw_debug(UIState *s)
   float  laneWidth = scene.lateralPlan.getLaneWidth();
   //float  cpuPerc = scene.deviceState.getCpuUsagePercent();
 
+  float currentCurvature = scene.lateralPlan.getCurrentCurvature(); 
 
   auto lane_line_probs = scene.modelDataV2.getLaneLineProbs();
 
@@ -451,8 +452,8 @@ static void ui_draw_debug(UIState *s)
     ui_print( s, x_pos, y_pos+0,   "sR:%.2f, %.2f %.2f", steerRatio,  steerRatioCV, steerActuatorDelayCV );
     ui_print( s, x_pos, y_pos+50,  "aO:%.2f, %.2f", angleOffset, angleOffsetAverage );
     ui_print( s, x_pos, y_pos+100, "sF:%.2f Fan:%.0f", stiffnessFactor, fanSpeed/1000. );
-    ui_print( s, x_pos, y_pos+150, "lW:%.2f CV:%.0f", laneWidth, modelSpeed );
-    ui_print( s, x_pos, y_pos+200, "time:%d", scene.scr.nTime/20 );
+    ui_print( s, x_pos, y_pos+150, "lW:%.2f CV:%.0f, %.5f", laneWidth, modelSpeed, currentCurvature );
+    ui_print( s, x_pos, y_pos+200, "time:%d", scene.scr.nTime/20  );
 
 
     ui_print( s, x_pos, y_pos+250, "prob:%.2f, %.2f, %.2f, %.2f", lane_line_probs[0], lane_line_probs[1], lane_line_probs[2], lane_line_probs[3] );

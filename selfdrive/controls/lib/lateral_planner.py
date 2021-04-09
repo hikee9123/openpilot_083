@@ -73,6 +73,7 @@ class LateralPlanner():
     self.y_pts = np.zeros(TRAJECTORY_SIZE)
 
     self.m_wait_time = 0
+    self.current_curvature = 0
     self.log1 = trace1.Loger("LateralPlanner")
 
   def setup_mpc(self):
@@ -114,8 +115,7 @@ class LateralPlanner():
       self.t_idxs = np.array(md.position.t)
       self.plan_yaw = list(md.orientation.z)
 
-    ll_probs = md.laneLineProbs   # 0,1,2,3
-    # re_stds = md.roadEdges   # 0,1
+
 
     # Lane change logic
     one_blinker = sm['carState'].leftBlinker != sm['carState'].rightBlinker
@@ -140,19 +140,15 @@ class LateralPlanner():
       lane_change_prob = self.LP.l_lane_change_prob + self.LP.r_lane_change_prob
 
       # auto
-      #str_log2 = 'll_probs={:.1f},{:.1f}  {:.3f}  {:.0f}'.format( ll_probs[0],ll_probs[3], lane_change_prob, blindspot_detected )
+      ll_probs = md.laneLineProbs   # 0,1,2,3
       if torque_applied or self.lane_change_timer < LANE_CHANGE_AUTO_TIME:
         pass
       elif self.lane_change_direction == LaneChangeDirection.left:
         if ll_probs[0] > 0.5:
           torque_applied = True
-        #str_log2 += 'left {:.1f}  torque_applied={}'.format( ll_probs[0], torque_applied )
       elif self.lane_change_direction == LaneChangeDirection.right:
         if ll_probs[3] > 0.5:
           torque_applied = True
-        #str_log2 += 'right {:.1f}  torque_applied={}'.format( ll_probs[3], torque_applied )
-
-      #self.log1.add( str_log2 )
 
       # State transitions
       # off
@@ -240,6 +236,7 @@ class LateralPlanner():
 
     self.desired_curvature = next_curvature
     self.desired_curvature_rate = next_curvature_rate
+    self.current_curvature = current_curvature
     max_curvature_rate = interp(v_ego, MAX_CURVATURE_RATE_SPEEDS, MAX_CURVATURE_RATES)
     self.safe_desired_curvature_rate = clip(self.desired_curvature_rate,
                                             -max_curvature_rate,
@@ -278,6 +275,8 @@ class LateralPlanner():
     plan_send.lateralPlan.rawCurvatureRate = float(self.desired_curvature_rate)
     plan_send.lateralPlan.curvature = float(self.safe_desired_curvature)
     plan_send.lateralPlan.curvatureRate = float(self.safe_desired_curvature_rate)
+    plan_send.lateralPlan.currentCurvature = float(self.current_curvature)
+
 
     plan_send.lateralPlan.mpcSolutionValid = bool(plan_solution_valid)
 
