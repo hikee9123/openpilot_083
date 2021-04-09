@@ -389,7 +389,7 @@ static void ui_draw_modeSel(UIState *s)
   int ui_viz_rx = s->viz_rect.x;
   int ui_viz_rw = s->viz_rect.w; 
   const int viz_speed_x = ui_viz_rx+((ui_viz_rw/2)-(280/2));
-  int x_pos = viz_speed_x + 300;
+  int x_pos = viz_speed_x + 350;
   int y_pos = 120;
 
 
@@ -398,11 +398,11 @@ static void ui_draw_modeSel(UIState *s)
   nvgFontSize(s->vg, 80);
   switch( modeSel  )
   {
-    case 0: strcpy( str_msg, "0.OP" ); nColor = COLOR_WHITE; break;
-    case 1: strcpy( str_msg, "1.CURVE" );    nColor = nvgRGBA(200, 200, 255, 255);  break;
-    case 2: strcpy( str_msg, "2.FWD CAR" );  nColor = nvgRGBA(200, 255, 255, 255);  break;
-    case 3: strcpy( str_msg, "3.HYUNDAI" );  nColor = nvgRGBA(200, 255, 255, 255);  break;
-    case 4: strcpy( str_msg, "4.CURVATURE" );   nColor = nvgRGBA(200, 255, 255, 255);  break;
+    case 0: strcpy( str_msg, "0.OPM" ); nColor = COLOR_WHITE; break;
+    case 1: strcpy( str_msg, "1.CVS" );    nColor = nvgRGBA(200, 200, 255, 255);  break;
+    case 2: strcpy( str_msg, "2.FCAR" );  nColor = nvgRGBA(200, 255, 255, 255);  break;
+    case 3: strcpy( str_msg, "3.HYUN" );  nColor = nvgRGBA(200, 255, 255, 255);  break;
+    case 4: strcpy( str_msg, "4.CVM" );   nColor = nvgRGBA(200, 255, 255, 255);  break;
     default :  sprintf( str_msg, "%d.NORMAL", modeSel ); nColor = COLOR_WHITE;  break;
   }
   nvgFillColor(s->vg, nColor);  
